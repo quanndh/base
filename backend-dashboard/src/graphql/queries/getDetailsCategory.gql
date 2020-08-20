@@ -1,0 +1,23 @@
+query getDetailsCategory($id: ID!) {
+  getDetailsCategory(id: $id) {
+    id
+    description
+    parent {
+      id
+      description
+      countPage
+      # deletedAt
+      createdAt
+      updatedAt
+    }
+    countPage
+    # deletedAt
+    createdAt
+    updatedAt
+    translations {
+      id
+      name
+      lang
+    }
+  }
+}

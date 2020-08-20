@@ -1,0 +1,68 @@
+.iso404Page {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+
+  @media only screen and (max-width: 767px) {
+    width: 100%;
+    flex-direction: column;
+    flex-wrap: nowrap;
+  }
+  .iso404Content {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    flex-direction: column;
+
+    @media only screen and (max-width: 767px) {
+      order: 2;
+      margin-top: 20px;
+      align-items: center;
+      text-align: center;
+      flex-direction: column;
+    }
+
+    h1 {
+      font-size: 84px;
+      font-weight: 700;
+      color: #788195;
+      line-height: 1;
+      margin: 0 0 25px;
+    }
+
+    h3 {
+      font-size: 24px;
+      font-weight: 400;
+      color: #595959;
+      margin: 0 0 10px;
+      line-height: 1.2;
+    }
+
+    p {
+      font-size: 14px;
+      font-weight: 400;
+      margin: 0 0 10px;
+    }
+  }
+
+  .iso404Artwork {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 100px;
+    height: 500px;
+
+    @media only screen and (max-width: 767px) {
+      margin-left: 0;
+    }
+
+    img {
+      max-height: 100%;
+    }
+  }
+}

@@ -1,0 +1,123 @@
+type BasePaginationMeta {
+  itemCount: Float!
+  totalItems: Float!
+  itemsPerPage: Float!
+  totalPages: Float!
+  currentPage: Float!
+}
+
+type User implements Node {
+  id: ID!
+  firstName: String
+  age: Int
+  username: String!
+  lastName: String
+  isActive: Boolean!
+  roles: [String!]
+  fullName: String
+}
+
+"""
+Node
+"""
+interface Node {
+  id: ID!
+}
+
+type UserConnection {
+  items: [User!]
+  meta: BasePaginationMeta!
+}
+
+"""
+AuthConnection
+"""
+type AuthConnection {
+  accessToken: String!
+  refreshToken: String!
+  user: User!
+}
+
+type Media implements Node {
+  id: ID!
+  fileSize: Int
+  name: String!
+  filePath: String
+  mimeType: String
+  isDeleted: Boolean!
+  ownerId: String
+  type: FileType!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  owner: User
+  capabilities: MediaCapability
+}
+
+enum FileType {
+  FILE
+  DIR
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type MediaConnection {
+  items: [Media!]
+  meta: BasePaginationMeta!
+}
+
+type MediaCapability {
+  canCopy: Boolean
+  canDelete: Boolean
+  canDownload: Boolean
+  canEdit: Boolean
+  canRename: Boolean
+}
+
+type Sample implements Node {
+  id: ID!
+  views: Int!
+  title: String!
+  content: String!
+  isPublished: Boolean!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Query {
+  users: UserConnection
+  me: User!
+  medias(limit: Int = 15, page: Int = 1, parentId: String): MediaConnection
+}
+
+type Mutation {
+  createUser(input: NewUserInput!): User!
+  sendMail: Boolean!
+  login(password: String!, username: String!): AuthConnection!
+  uploadMedia(provider: String = "LOCAL", parentId: ID, file: Upload!): Media!
+  uploadMediaToS3(parentId: ID, file: Upload!): Media!
+  removeMedia(id: ID): Media!
+  updateMedia(input: UpdateMediaInput!): Media!
+  createDir(parentId: ID, dirName: String!): Media!
+}
+
+input NewUserInput {
+  age: Int
+  username: String!
+  password: String
+  firstName: String
+  lastName: String
+  roles: [String!]
+}
+
+"""
+The `Upload` scalar type represents a file upload.
+"""
+scalar Upload
+
+input UpdateMediaInput {
+  id: ID!
+  name: String!
+}

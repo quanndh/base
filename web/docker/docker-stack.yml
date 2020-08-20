@@ -1,0 +1,17 @@
+version: '3.3'
+services:
+  klc_web:
+    image: ${DOCKER_IMAGE}
+    restart: unless-stopped
+    networks:
+      - klc_web_network
+      - klc-dkb-backend-apis_klc_network
+    depends_on:
+      - klc-dkb-backend-apis_klc_api
+
+networks:
+  klc_web_network:
+    driver: overlay
+    attachable: true
+  klc-dkb-backend-apis_klc_network:
+    external: true

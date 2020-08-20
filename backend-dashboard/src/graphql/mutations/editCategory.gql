@@ -1,0 +1,81 @@
+mutation editCategory($input: EditCategoryInput!) {
+  editCategory(input: $input) {
+    id
+    description
+    children {
+      id
+      description
+      children {
+        id
+        description
+        parent {
+          id
+          description
+          children {
+            id
+            description
+            countPage
+            # deletedAt
+            createdAt
+            updatedAt
+          }
+          parent {
+            id
+            description
+            countPage
+            # deletedAt
+            createdAt
+            updatedAt
+          }
+          countPage
+          # deletedAt
+          createdAt
+          updatedAt
+          translations {
+            id
+            name
+            lang
+          }
+        }
+        countPage
+        # deletedAt
+        createdAt
+        updatedAt
+        translations {
+          id
+          name
+          lang
+          category {
+            id
+            description
+            countPage
+            # deletedAt
+            createdAt
+            updatedAt
+          }
+        }
+      }
+      countPage
+      # deletedAt
+      createdAt
+      updatedAt
+    }
+    parent {
+      id
+      description
+      countPage
+      # deletedAt
+      createdAt
+      updatedAt
+    }
+    countPage
+    # deletedAt
+    createdAt
+    updatedAt
+    translations {
+      id
+      name
+      lang
+    }
+  }
+}

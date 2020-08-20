@@ -1,0 +1,49 @@
+query getAllCategory {
+  getAllCategory {
+    id
+    countPage
+    description
+    # deletedAt
+    createdAt
+    updatedAt
+    children {
+      id
+      countPage
+      description
+      # deletedAt
+      createdAt
+      updatedAt
+      translations {
+        id
+        name
+        lang
+      }
+      children {
+        id
+        countPage
+        description
+        # deletedAt
+        createdAt
+        updatedAt
+        translations {
+          id
+          name
+          lang
+        }
+      }
+    }
+    parent {
+      id
+      countPage
+      description
+      # deletedAt
+      createdAt
+      updatedAt
+    }
+    translations {
+      id
+      name
+      lang
+    }
+  }
+}

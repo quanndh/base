@@ -1,0 +1,71 @@
+query getPagingCategory($limit: Int, $page: Int, $search: String) {
+  getPagingCategory(limit: $limit, page: $page, search: $search) {
+    items {
+      id
+      parentId
+      countPage
+      translations {
+        id
+        name
+        lang
+      }
+      description
+      createdAt
+      updatedAt
+      children {
+        id
+        parentId
+        countPage
+        translations {
+          id
+          name
+          lang
+        }
+        description
+        createdAt
+        updatedAt
+        children {
+          id
+          parentId
+          countPage
+          description
+          createdAt
+          updatedAt
+          translations {
+            id
+            name
+            lang
+          }
+          parent {
+            id
+            parentId
+            countPage
+            description
+            createdAt
+            updatedAt
+          }
+        }
+      }
+      parent {
+        id
+        parentId
+        countPage
+        translations {
+          id
+          name
+          lang
+        }
+        description
+        createdAt
+        updatedAt
+      }
+    }
+    meta {
+      itemCount
+      totalItems
+      itemsPerPage
+      totalPages
+      currentPage
+    }
+  }
+}

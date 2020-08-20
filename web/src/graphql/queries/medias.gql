@@ -1,0 +1,23 @@
+query medias($limit: Int, $page: Int, $parentId: String) {
+  medias(limit: $limit, page: $page, parentId: $parentId) {
+    items {
+      id
+      fileSize
+      name
+      filePath
+      mimeType
+      isDeleted
+      ownerId
+      type
+      createdAt
+      updatedAt
+    }
+    meta {
+      itemCount
+      totalItems
+      itemsPerPage
+      totalPages
+      currentPage
+    }
+  }
+}

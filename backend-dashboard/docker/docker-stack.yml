@@ -1,0 +1,20 @@
+version: '3.3'
+
+services:
+  klc_dashboard:
+    image: '${DOCKER_IMAGE}'
+    restart: unless-stopped
+    ports:
+      - 4001:80
+    networks:
+      - klc_dashboard_network
+      - klc-dkb-backend-apis_klc_network
+    depends_on:
+      - klc-dkb-backend-apis_klc_api
+
+networks:
+  klc_dashboard_network:
+    driver: overlay
+    attachable: true
+  klc-dkb-backend-apis_klc_network:
+    external: true

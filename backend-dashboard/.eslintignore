@@ -1,0 +1,4 @@
+**/node_modules/*
+**/build/*
+**/__generated__/*
+schema/schema.graphql

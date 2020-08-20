@@ -1,0 +1,21 @@
+overwrite: true
+schema:
+  - https://kcl.ntq.solutions/graphql
+generates:
+  schema/schema.json:
+    plugins:
+      - introspection
+    config:
+      minify: false
+  schema/schema.graphql:
+    plugins:
+      - schema-ast
+  src/apollo/possibleTypes.json:
+    plugins:
+      - fragment-matcher
+config:
+  apolloClientVersion: 3
+  namingConvention: keep
+hooks:
+  afterOneFileWrite:
+    - prettier --write

@@ -1,0 +1,1136 @@
+type BasePaginationMeta {
+  itemCount: Float!
+  totalItems: Float!
+  itemsPerPage: Float!
+  totalPages: Float!
+  currentPage: Float!
+}
+
+type FinancialReports {
+  id: ID!
+  categoryId: String
+  seoKeyword: [String!]
+  category: Category
+  lang: LanguageEnum!
+  title: String!
+  subTitle: String!
+  background: String
+  seoPageTitle: String
+  seoDescription: String
+  featureImage: String
+  financialStatement: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  featureImageFullPath: String
+  backgroundFullPath: String
+  reportList: [ReportsModel!]
+}
+
+enum LanguageEnum {
+  EN
+  VI
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type MemberGeneralInfo {
+  id: ID!
+  categoryId: ID!
+  shortDescription: String
+  seoPageTitle: String
+  metaDescription: String
+  seoKeyword: [String!]
+  featureImage: String
+  category: Category!
+  lang: LanguageEnum!
+  title: String!
+  background: String!
+  titleHeading: String!
+  subTitleHeading: String!
+  pageUrl: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  pageUrlPath: String
+  backgroundPath: String
+  featureImagePath: String
+}
+
+"""Category"""
+type Category implements Node {
+  id: ID!
+  parentId: ID
+  countPage: Int!
+  translations: [CategoryTranslations!]
+  description: String
+  deletedAt: DateTime
+  createdAt: DateTime!
+  updatedAt: DateTime
+  pages: PageTranslation!
+  children: [Category!]
+  parent: Category
+  financials: FinancialReports!
+  translation: CategoryTranslations
+}
+
+"""Node"""
+interface Node {
+  id: ID!
+}
+
+type CategoryConnection {
+  items: [Category!]
+  meta: BasePaginationMeta!
+}
+
+type CategoryTranslations {
+  id: ID!
+  cagetoryId: ID!
+  name: String!
+  lang: LanguageEnum!
+  deletedAt: DateTime
+  createdAt: DateTime!
+  updatedAt: DateTime
+  category: Category!
+}
+
+type TemplateEntity {
+  id: ID!
+  details: String
+  isActive: Boolean!
+  pages: [PageTranslation!]
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  isDeleted: Boolean!
+  deletedAt: DateTime
+}
+
+type FundGroups {
+  id: ID!
+  translations: [FundGroupTranslations!]
+  funds: [Funds!]
+  deletedAt: DateTime
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  createdBy: User!
+  translation: FundGroupTranslations
+  count: Int
+}
+
+type FundGroupConnection {
+  items: [FundGroups!]
+  meta: BasePaginationMeta!
+}
+
+type FundGroupTranslations {
+  id: ID!
+  fundGroupId: ID!
+  pageTranslationId: ID
+  description: String
+  linkUrl: String
+  buttonColor: String
+  image: String
+  lang: LanguageEnum!
+  name: String!
+  label: String!
+  deletedAt: DateTime
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  linkUrlPath: String
+  imagePath: String
+}
+
+type FundRates {
+  id: ID!
+  fundId: ID!
+  rateDate: DateTime
+  rateValue: Float
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  deletedAt: DateTime
+}
+
+type Funds {
+  id: ID!
+  fundGroupId: ID
+  translations: [FundTranslations!]
+  rates: [FundRates!]
+  order: Float!
+  deletedAt: DateTime
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  createdBy: User!
+  fundGroup: FundGroups
+  translation: FundTranslations
+}
+
+type FundConnection {
+  items: [Funds!]
+  meta: BasePaginationMeta!
+}
+
+type FundTranslations {
+  id: ID!
+  fundId: ID!
+  pageTranslationId: ID
+  seoPageTitle: String
+  metaDescription: String
+  seoKeyword: [String!]
+  featureImage: String
+  subTitle: String
+  linkUrl: String
+  buttonColor: String
+  description: String
+  image: String
+  moduleType: String!
+  lang: LanguageEnum!
+  urlSlug: String!
+  name: String!
+  label: String!
+  deletedAt: DateTime
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  urlSlugPath: String
+  linkUrlPath: String
+  imagePath: String
+  featureImagePath: String
+}
+
+type PageEntity {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  isDeleted: Boolean!
+  deletedAt: DateTime
+}
+
+type PageTranslation {
+  id: ID!
+  pageId: ID
+  pageTitle: String
+  urlSlug: String
+  seoTitle: String
+  seoDescription: String
+  seoKeyword: [String!]
+  layoutType: LayoutType
+  pageLayout: String
+  categoryId: String
+  templateId: String
+  createdBy: ID!
+  page: PageEntity
+  creator: User
+  category: Category
+  fundTranslations: [FundTranslations!]
+  template: TemplateEntity
+  lang: LanguageEnum!
+  featuredImage: String
+  status: PageStatus
+  publishedAt: DateTime
+  pageType: PageType
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  isDeleted: Boolean!
+  deletedAt: DateTime
+  hasEnLanguage: Boolean
+  hasVnLanguage: Boolean
+  draftVersionId: String
+  otherVersions: [PageTranslation!]
+  isDraft: Boolean
+  fullPath: String
+  mediumImage: String
+  lowQualityImage: String
+  thumbImage: String
+}
+
+enum LayoutType {
+  BUILDER
+  UPLOAD
+}
+
+enum PageStatus {
+  DRAFT
+  PUBLISHED
+}
+
+enum PageType {
+  HOME
+  PAGE
+}
+
+type PageTransConnection {
+  items: [PageTranslation!]
+  meta: BasePaginationMeta!
+}
+
+type Members {
+  id: ID!
+  translations: [MemberTranslation!]
+  order: Float!
+  deletedAt: DateTime
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  createdBy: User!
+  translation: MemberTranslation
+}
+
+type MemberTranslation {
+  id: ID!
+  memberId: ID!
+  quote: String
+  backgroundColor: String
+  description: String
+  featureImage: String
+  seoPageTitle: String
+  metaDescription: String
+  seoKeyword: [String!]
+  lang: LanguageEnum!
+  urlSlug: String!
+  photo: String!
+  fullname: String!
+  position: String!
+  deletedAt: DateTime
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  urlSlugPath: String
+  photoPath: String
+  featureImagePath: String
+}
+
+type User implements Node {
+  id: ID!
+  firstName: String
+  members: [Members!]
+  username: String!
+  email: String!
+  lastName: String
+  isActive: Boolean!
+  userType: UserType!
+  defaultLanguage: LanguageEnum!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  isDeleted: Boolean!
+  deletedAt: DateTime
+  role: RoleType
+  pages: [PageTranslation!]!
+  fullName: String
+}
+
+enum UserType {
+  ADMIN
+  USER
+}
+
+enum RoleType {
+  ADMIN
+  SUBADMIN
+  EDITOR
+}
+
+type UserConnection {
+  items: [User!]
+  meta: BasePaginationMeta!
+}
+
+type LogoutModel {
+  isDeleted: Boolean!
+}
+
+"""AuthConnection"""
+type AuthConnection {
+  accessToken: String!
+  refreshToken: String!
+  user: User!
+}
+
+type Media implements Node {
+  id: ID!
+  fullPath: String
+  thumbImage: String
+  mediumImage: String
+  originImage: String
+  fileSize: Int
+  uploadBy: ID!
+  fileName: String!
+  name: String!
+  filePath: String
+  mimeType: String
+  fileType: FileType
+  isDeleted: Boolean!
+  deletedAt: DateTime
+  uploadType: UploadType!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  owner: User
+  capabilities: MediaCapability
+}
+
+enum FileType {
+  IMAGE
+  VIDEO
+  FILE
+}
+
+enum UploadType {
+  FILE
+  DIR
+}
+
+type MediaConnection {
+  items: [Media!]
+  meta: BasePaginationMeta!
+}
+
+type DeleteMedia {
+  id: ID!
+  isDeleted: Boolean!
+}
+
+type MediaCapability {
+  canCopy: Boolean
+  canDelete: Boolean
+  canDownload: Boolean
+  canEdit: Boolean
+  canRename: Boolean
+}
+
+type BranchTypes {
+  id: ID!
+  translations: [BranchTypeTranslations!]
+  branches: [Branches!]
+  color: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  translation: BranchTypeTranslations
+}
+
+type BranchTypeTranslations {
+  id: ID!
+  branchTypeId: ID!
+  name: String!
+  lang: LanguageEnum!
+}
+
+type Branches {
+  id: ID!
+  branchTypeId: ID
+  translations: [BranchTranslations!]
+  lat: Float!
+  lon: Float!
+  phone: String
+  fax: String
+  deletedAt: DateTime
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  province: Provinces
+  district: Districts
+  ward: Wards
+  branchType: BranchTypes!
+  translation: BranchTranslations
+}
+
+type BranchConnection {
+  items: [Branches!]
+  meta: BasePaginationMeta!
+}
+
+type BranchTranslations {
+  id: ID!
+  branchId: ID!
+  name: String!
+  address: String!
+  lang: LanguageEnum!
+  deletedAt: DateTime
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Wards {
+  id: ID!
+  name: String!
+  prefix: String!
+  district: Districts!
+  province: Provinces!
+}
+
+type Districts {
+  id: ID!
+  name: String!
+  prefix: String!
+  province: Provinces!
+  wards: [Wards!]!
+}
+
+type Provinces {
+  id: ID!
+  name: String!
+  code: String!
+  districts: [Districts!]!
+}
+
+type FundGeneralInfo {
+  id: ID!
+  categoryId: ID!
+  seoPageTitle: String
+  metaDescription: String
+  seoKeyword: [String!]
+  featureImage: String
+  category: Category!
+  lang: LanguageEnum!
+  title: String!
+  background: String!
+  pageUrl: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  pageUrlPath: String
+  backgroundPath: String
+  featureImagePath: String
+}
+
+type BlogGeneralInfo {
+  id: ID!
+  categoryId: ID!
+  seoPageTitle: String
+  metaDescription: String
+  seoKeyword: [String!]
+  featureImage: String
+  category: Category!
+  lang: LanguageEnum!
+  title: String!
+  background: String!
+  pageUrl: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  pageUrlPath: String
+  backgroundPath: String
+  featureImagePath: String
+}
+
+type MenuModel {
+  id: ID!
+  url: String
+  text: String
+  icon: String
+  megaMenu: Boolean
+  slug: String
+  pageId: ID
+  children: [MenuModel!]
+}
+
+type SiteMapModel {
+  id: ID!
+  url: String
+  text: String
+  slug: String
+  pageId: ID
+  children: [SiteMapModel!]
+}
+
+type FooterModel {
+  id: ID!
+  logo: String!
+  address: String!
+  hotline: String!
+  email: String!
+  lang: LanguageEnum!
+  sns: [FieldModel!]
+  shortcuts: [FieldModel!]
+  logoPath: String
+}
+
+type FieldModel {
+  name: String!
+  url: String!
+}
+
+type HeaderModel {
+  id: ID!
+  partners: [PartnerModel!]
+  lang: LanguageEnum!
+  logo: String!
+  hotline: String!
+  buttonName: String!
+  buttonURL: String!
+  buttonBorderColor: String!
+  buttonNameColor: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  fullPath: String
+}
+
+type PartnerModel {
+  name: String!
+  url: String!
+}
+
+type SearchResultModel {
+  id: ID!
+  moduleType: ModuleType!
+  pageTitle: String!
+  urlSlug: String!
+  content: String
+}
+
+enum ModuleType {
+  PRODUCT
+  FUND
+  PRMOTION
+  PRESS
+  BLOG
+  BRANDING
+  CSR
+}
+
+type SearchConnection {
+  items: [SearchResultModel!]
+  meta: BasePaginationMeta!
+}
+
+type ReportsModel {
+  year: String
+  file: String
+  fileFullPath: String
+}
+
+type Query {
+  users: UserConnection
+  me: User!
+
+  """assets management"""
+  medias(limit: Int = 15, page: Int = 1, parentId: String, search: String, sorts: [SortInput!], fileType: FileType, uploadDateFrom: String, uploadDateTo: String): MediaConnection
+
+  """media detail"""
+  media(id: ID!): Media
+
+  """Get Home Menu"""
+  getHomeMenu(lang: LanguageEnum!): [MenuModel!]!
+
+  """Get Home Menu"""
+  menuHome: [SiteMapModel!]!
+
+  """Get Paging Category"""
+  getPagingCategory(limit: Int = 15, page: Int = 1, search: String = ""): CategoryConnection
+
+  """Get all Category"""
+  getAllCategory: [Category!]
+
+  """Get details Category"""
+  getDetailsCategory(id: ID!): Category
+
+  """Get all Page"""
+  getAllPage: [PageTranslation!]!
+
+  """Get list all Pages with search sort filter"""
+  pages(limit: Int = 15, page: Int = 1, isDeleted: Boolean = false, search: String, sorts: [SortInput!], category: String, createdDateFrom: String, createdDateTo: String, pageIds: [String!], lang: LanguageEnum, status: PageStatus, pageType: PageType!): PageTransConnection!
+
+  """Get page detail"""
+  page(id: String!): PageTranslation!
+
+  """Get page detail by slug"""
+  pageBySlug(isPreview: Boolean = false, slug: String!): PageTranslation!
+
+  """Count total trash page"""
+  countPageTrash(pageType: PageType!): Float!
+
+  """get published home page"""
+  homePage: PageTranslation!
+
+  """list page by lang and not paginate"""
+  pageList(
+    """pageId of current page"""
+    pageId: ID
+    pageType: PageType
+    search: String
+    lang: LanguageEnum
+  ): [PageTranslation!]!
+
+  """check unique slug"""
+  checkUniqueSlug(input: CheckSlugInput!): Boolean!
+
+  """Get all province"""
+  provinces(search: String): [Provinces!]!
+
+  """Get details province"""
+  province(id: ID!): Provinces
+
+  """Get all district"""
+  districts(provinceId: ID, search: String): [Districts!]!
+
+  """Get details district"""
+  district(id: ID!): Districts
+
+  """Get all wards"""
+  wards(districtId: ID, search: String): [Wards!]!
+
+  """Get details ward"""
+  ward(id: ID!): Wards
+
+  """Get branches"""
+  branches(limit: Int = 15, page: Int = 1, provinceId: ID, branchTypeId: ID, districtId: ID, wardId: ID, name: String): [Branches!]!
+
+  """Get branchTypes"""
+  branchTypes: [BranchTypes!]!
+
+  """Get branch"""
+  branch(id: ID): Branches
+
+  """Get Paging Branch"""
+  getPagingBranch(limit: Int = 15, page: Int = 1, provinceId: ID, branchTypeId: ID, districtId: ID, wardId: ID, name: String): BranchConnection
+
+  """Get Site Map"""
+  sitemaps(lang: LanguageEnum!): [SiteMapModel!]!
+
+  """Get footer"""
+  footer(lang: LanguageEnum!): FooterModel
+
+  """Get footer for homepage"""
+  footerHome: FooterModel
+
+  """Get header detail"""
+  header(lang: LanguageEnum!): HeaderModel
+
+  """Get header for homepage"""
+  headerHome: HeaderModel
+
+  """Get members"""
+  members: [Members!]
+
+  """Get member details"""
+  member(slug: String, id: ID): Members
+
+  """Get member general info"""
+  memberGeneralInfo: MemberGeneralInfo
+
+  """Get admin member general info"""
+  adminMemberGeneralInfo(lang: LanguageEnum!): MemberGeneralInfo
+
+  """Get fund general info"""
+  fundGeneralInfo: FundGeneralInfo
+
+  """Get admin fund general info"""
+  adminFundGeneralInfo(lang: LanguageEnum!): FundGeneralInfo
+
+  """Get funds"""
+  funds: [Funds!]
+
+  """Get paging funds"""
+  getPagingFund(limit: Int = 15, page: Int = 1, search: String = "", fundGroupId: ID = ""): FundConnection
+
+  """Get fund details"""
+  fund(slug: String, id: ID): Funds
+
+  """Get fundGroups"""
+  fundGroups: [FundGroups!]
+
+  """Get paging fund groups"""
+  getPagingFundGroup(limit: Int = 15, page: Int = 1, search: String = ""): FundGroupConnection
+
+  """Get fund group details"""
+  fundGroup(id: ID!): FundGroups
+
+  """Search suggestion, return max 5 records"""
+  searchSuggestion(moduleType: ModuleType, keyword: String!): [SearchResultModel!]!
+
+  """Search all Product/Fund/Promotion/Press/Blog/Branding campaign/CSR"""
+  searchAll(moduleType: ModuleType, keyword: String!, limit: Int = 20, page: Int = 1): SearchConnection!
+
+  """Get financial detail"""
+  financial(lang: LanguageEnum!): FinancialReports!
+
+  """Get financial detail"""
+  reportList: [ReportsModel!]!
+}
+
+input SortInput {
+  field: String!
+  direction: String
+}
+
+"""check Unique slug"""
+input CheckSlugInput {
+  id: ID
+  urlSlug: String!
+}
+
+type Mutation {
+  createUser(input: NewUserInput!): User!
+  sendMail: Boolean!
+  login(password: String!, username: String!): AuthConnection!
+  logout: LogoutModel!
+  uploadMedia(provider: String = "LOCAL", parentId: ID, file: Upload!): Media!
+  uploadMediaToS3(parentId: ID, file: Upload!): Media!
+  deleteMedia(id: ID): DeleteMedia!
+  updateMedia(input: UpdateMediaInput!): Media!
+
+  """create directory"""
+  createDirectory(parentId: ID, dirName: String!): Media!
+
+  """Create Or Update Home Menu"""
+  createOrUpdateHomeMenu(lang: LanguageEnum!, input: [HomeMenuInput!]!): [MenuModel!]!
+
+  """Create new Category"""
+  createCategory(input: NewCategoryInput!): Category
+
+  """Edit Category"""
+  editCategory(input: EditCategoryInput!): Category
+
+  """Delete Category"""
+  deleteCategory(id: ID!): Boolean
+
+  """Create a new page"""
+  createPage(input: NewPageTransInput!): PageTranslation!
+
+  """Edit page layout"""
+  editPageLayout(input: EditPageLayout!): PageTranslation!
+
+  """Soft delete page"""
+  movePageToTrash(id: ID): PageTranslation!
+
+  """Delete/Restore page"""
+  actionPage(action: ActionPage, id: ID): PageTranslation!
+
+  """Edit page: general infors and seo configures"""
+  editPage(input: EditPageInput!): PageTranslation!
+
+  """Edit page: general infors and seo configures"""
+  clonePage(id: ID): PageTranslation!
+
+  """Create new Branch"""
+  createBranch(input: NewBranchInput!): Branches
+
+  """Edit Branch"""
+  editBranch(input: EditBranchInput!): Branches
+
+  """Delete Branch"""
+  deleteBranch(id: ID!): Boolean
+
+  """Create Or Update Site Map"""
+  createOrUpdateSiteMap(lang: LanguageEnum!, input: [SiteMapInput!]!): [SiteMapModel!]!
+
+  """Create or Update footer"""
+  createOrUpdateFooter(input: FooterInput!): FooterModel
+
+  """Create or Update header"""
+  headerSetting(input: HeaderInput!): HeaderModel
+
+  """Create member"""
+  createOrUpdateMember(input: NewMemberInput!): Members
+
+  """reOrderMembers"""
+  reOrderMembers(ids: [String!]!): [Members!]
+
+  """Delete Member"""
+  deleteMember(id: ID!): Boolean
+
+  """createOrUpdateMemberGeneralInfo"""
+  createOrUpdateMemberGeneralInfo(input: MemberGeneralInfoInput!): MemberGeneralInfo
+
+  """createOrUpdateFundGeneralInfo"""
+  createOrUpdateFundGeneralInfo(input: FundGeneralInfoInput!): FundGeneralInfo
+
+  """createOrUpdateFund"""
+  createOrUpdateFund(input: NewFundInput!): Funds
+
+  """Delete Fund"""
+  deleteFund(id: ID!): Boolean
+
+  """createOrUpdateFundGroup"""
+  createOrUpdateFundGroup(input: NewFundGroupInput!): FundGroups
+
+  """Delete Fund Group"""
+  deleteFundGroup(id: ID!): Boolean
+
+  """Create new or update financial report language version"""
+  upsertFinancial(input: FinancialInput!): FinancialReports!
+
+  """createOrUpdateBlogGeneralInfo"""
+  createOrUpdateBlogGeneralInfo(input: BlogGeneralInfoInput!): BlogGeneralInfo
+}
+
+input NewUserInput {
+  role: RoleType
+  username: String!
+  password: String
+  email: String
+  firstName: String
+  lastName: String
+}
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
+
+input UpdateMediaInput {
+  id: ID!
+  name: String!
+}
+
+"""Input array home menu"""
+input HomeMenuInput {
+  id: ID
+  pageId: ID
+  icon: String
+  megaMenu: Boolean
+  text: String
+  slug: String
+  url: String
+  children: [HomeMenuInput!]
+}
+
+"""Input New Category"""
+input NewCategoryInput {
+  description: String
+  parentId: ID
+  translations: [CategoryTranslationInput!]!
+}
+
+"""Input New Category Translation"""
+input CategoryTranslationInput {
+  name: String!
+  lang: LanguageEnum!
+}
+
+"""Input Edit Category"""
+input EditCategoryInput {
+  id: ID!
+  description: String
+  parentId: ID
+  translations: [CategoryTranslationInput!]!
+}
+
+"""create new translation page"""
+input NewPageTransInput {
+  featuredImage: String
+  lang: LanguageEnum = VI
+  pageTitle: String!
+  categoryId: ID
+  urlSlug: String!
+  pageId: ID
+  seoTitle: String!
+  seoDescription: String!
+  seoKeyword: [String!]!
+  templateId: ID
+  pageLayout: String
+  pageType: PageType
+  status: PageStatus
+  layoutType: LayoutType
+}
+
+"""Edit Page Layout"""
+input EditPageLayout {
+  id: ID!
+  pageLayout: String!
+  status: PageStatus!
+}
+
+enum ActionPage {
+  DELETE
+  RESTORE
+}
+
+"""Input Edit Page Translation"""
+input EditPageInput {
+  featuredImage: String
+  lang: LanguageEnum = VI
+  pageTitle: String!
+  categoryId: ID
+  urlSlug: String!
+  pageId: ID
+  seoTitle: String!
+  seoDescription: String!
+  seoKeyword: [String!]!
+  templateId: ID
+  pageLayout: String
+  pageType: PageType
+  status: PageStatus
+  layoutType: LayoutType
+  id: ID!
+}
+
+"""Input New Branch"""
+input NewBranchInput {
+  branchTypeId: ID!
+  translations: [BranchTranslationInput!]!
+  lat: String!
+  lon: String!
+  phone: String!
+  fax: String = null
+  provinceId: ID = null
+  districtId: ID = null
+  wardId: ID = null
+}
+
+"""Input Translation Branch"""
+input BranchTranslationInput {
+  name: String!
+  address: String!
+  lang: LanguageEnum!
+}
+
+"""Input Edit Branch"""
+input EditBranchInput {
+  branchTypeId: ID!
+  translations: [BranchTranslationInput!]!
+  lat: String!
+  lon: String!
+  phone: String!
+  fax: String = null
+  provinceId: ID = null
+  districtId: ID = null
+  wardId: ID = null
+  id: ID!
+}
+
+"""Input array site map"""
+input SiteMapInput {
+  id: ID
+  pageId: ID
+  text: String
+  slug: String
+  url: String
+  children: [SiteMapInput!]
+}
+
+"""Input footer"""
+input FooterInput {
+  logo: String!
+  address: String!
+  hotline: String!
+  email: String!
+  lang: LanguageEnum!
+  sns: [FieldInput!]
+  shortcuts: [FieldInput!]
+}
+
+input FieldInput {
+  name: String!
+  url: String!
+}
+
+"""Header input"""
+input HeaderInput {
+  lang: LanguageEnum!
+  logo: String
+  partners: [PartnerInput!]
+  hotline: String
+  buttonName: String
+  buttonURL: String
+  buttonBorderColor: String
+  buttonNameColor: String
+}
+
+input PartnerInput {
+  name: String!
+  url: String
+}
+
+"""Input new member"""
+input NewMemberInput {
+  memberId: ID
+  lang: LanguageEnum!
+  urlSlug: String!
+  photo: String!
+  fullname: String!
+  position: String!
+  quote: String
+  backgroundColor: String
+  description: String
+  featureImage: String
+  seoPageTitle: String
+  metaDescription: String
+  seoKeyword: [String!]
+}
+
+"""Input Member General Info"""
+input MemberGeneralInfoInput {
+  categoryId: ID!
+  lang: LanguageEnum!
+  title: String!
+  background: String!
+  titleHeading: String!
+  subTitleHeading: String!
+  shortDescription: String
+  seoPageTitle: String
+  metaDescription: String
+  seoKeyword: [String!]
+  featureImage: String
+}
+
+"""Input Fund General Info"""
+input FundGeneralInfoInput {
+  categoryId: ID!
+  lang: LanguageEnum!
+  title: String!
+  background: String!
+  seoPageTitle: String
+  metaDescription: String
+  seoKeyword: [String!]
+  featureImage: String
+}
+
+"""Input new fund"""
+input NewFundInput {
+  fundId: ID
+  pageTranslationId: ID
+  fundGroupId: ID
+  lang: LanguageEnum!
+  urlSlug: String!
+  name: String!
+  label: String!
+  subTitle: String
+  linkUrl: String
+  buttonColor: String
+  description: String
+  image: String
+  featureImage: String
+  seoPageTitle: String
+  metaDescription: String
+  seoKeyword: [String!]
+}
+
+"""Input new fund group"""
+input NewFundGroupInput {
+  fundGroupId: ID
+  pageTranslationId: ID
+  lang: LanguageEnum!
+  name: String!
+  label: String!
+  description: String
+  linkUrl: String
+  buttonColor: String
+  image: String
+  fundIds: [String!]!
+}
+
+"""Financial input"""
+input FinancialInput {
+  lang: LanguageEnum!
+  categoryId: ID!
+  title: String!
+  subTitle: String!
+  background: String
+  seoPageTitle: String
+  seoDescription: String
+  seoKeyword: [String!]
+  featureImage: String
+  financialStatement: [FinancialStatementInput!]!
+}
+
+"""Financial Statement input"""
+input FinancialStatementInput {
+  year: String!
+  file: String!
+  fileFullPath: String
+}
+
+"""Input Blog General Info"""
+input BlogGeneralInfoInput {
+  categoryId: ID!
+  lang: LanguageEnum!
+  title: String!
+  background: String!
+  seoPageTitle: String
+  metaDescription: String
+  seoKeyword: [String!]
+  featureImage: String
+}
