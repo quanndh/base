@@ -3,10 +3,6 @@
   "version": "0.0.1",
   "description": "Nest Starter Kit",
   "author": "Harry Duong <thedv91@gmail.com>",
-  "repository": {
-    "url": "https://gitlab.com/thedv/nest-starter-kit",
-    "type": "git"
-  },
   "license": "MIT",
   "scripts": {
     "nest": "nest",
